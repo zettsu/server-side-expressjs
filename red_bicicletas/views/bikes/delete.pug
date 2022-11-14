@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+    a(href='bikes') Volver
+
+    br
+    br
+    br
+
+    h1 New Bike
+
+    br
+    br
+
+    form(action='/bikes' method='delete')
+        label(for='id') ID:
+        input#id(type='text' name='id')
+        br
+        input.btn(type="submit" value="delete")

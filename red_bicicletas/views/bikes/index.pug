@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    table.table
+        thead
+        tr
+            th(scope="col") #
+            th(scope="col") Color
+            th(scope="col") Model
+            th(scope="col") Location
+        tbody
+            each bike in bikes
+                tr
+                    th(scope="row")
+                        td= bike.id
+                        td= bike.color
+                        td= bike.model
+                        td= bike.location
