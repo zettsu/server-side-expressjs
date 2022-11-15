@@ -1,27 +1,35 @@
 extends ../layout
 
 block content
-    table.table
-        thead
-        tr
-            th(scope="col") #
-            th(scope="col") Color
-            th(scope="col") Model
-            th(scope="col") Location
-            th(scope="col")
-            th(scope="col")
-        tbody
-            each bike in bikes
-                tr
-                    td(scope="row")
-                        = bike.id
-                        td= bike.color
-                        td= bike.model
-                        td= bike.location
-                        td
-                            a(href="bikes/" + bike.id + "/update") Modificar
-                        td
-                            form.inline(method="post" action="bikes/" + bike.id + "/delete")
-                                input(type="hidden" name="id" value=bike.id)
-                                button.link-button(type="submit" name="submit_param" value="submit_value" class="btn")
-                                    = "Eliminar"
+    div.masthead
+        .container.px-4.px-lg-5.d-flex.h-25.align-items-center.justify-content-center
+            .d-flex.justify-content-center
+                .text-center
+                    h1.mx-auto.mt-0.text-uppercase Bikers Network
+        .container.pl-5.pr-5
+            .d-flex.justify-content-center
+                section#projects.container-fluid.bg-light
+                    table.table.table-responsive.table-hover
+                        thead
+                        tr
+                            th(scope="col") #
+                            th(scope="col") Color
+                            th(scope="col") Model
+                            th(scope="col") Location
+                            th(scope="col")
+                            th(scope="col")
+                        tbody
+                            each bike in bikes
+                                tr
+                                    td(scope="row")
+                                        = bike.id
+                                        td= bike.color
+                                        td= bike.model
+                                        td= bike.location
+                                        td
+                                            a(href="bikes/" + bike.id + "/update") Modificar
+                                        td
+                                            form.inline(method="post" action="bikes/" + bike.id + "/delete")
+                                                input(type="hidden" name="id" value=bike.id)
+                                                button.link-button(type="submit" name="submit_param" value="submit_value" class="btn")
+                                                    = "Eliminar"

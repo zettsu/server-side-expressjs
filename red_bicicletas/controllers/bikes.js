@@ -1,8 +1,11 @@
 let Bikes = require("../models/bikes");
 
+exports.json_bikes = function (req, res) {
+    res.json({ bikes : Bikes.allBikes });
+}
+
 exports.list_bikes = function (req, res) {
     res.render('bikes/index', { bikes : Bikes.allBikes });
-
 }
 
 exports.create_get = function (req, res) {
@@ -14,12 +17,12 @@ exports.update_get = function (req, res) {
 }
 
 exports.update_post = function (req, res) {
-    Bikes.update(req.params.id, req.body.color, req.body.model, req.body.location);
+    Bikes.update(req.params.id, req.body.color, req.body.model, [req.body.lat,req.body.long]);
     res.redirect('/bikes');
 }
 
 exports.create_post = function (req, res) {
-    let bike = new Bikes(req.body.id, req.body.color, req.body.model, req.body.location);
+    let bike = new Bikes(req.body.id, req.body.color, req.body.model, [req.body.lat,req.body.long]);
     Bikes.add(bike);
     res.redirect('/bikes');
 }

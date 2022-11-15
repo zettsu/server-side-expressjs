@@ -15,6 +15,22 @@ html
     // Core theme CSS (includes Bootstrap)
     // leaflet styles
     link(rel='stylesheet' href='https://unpkg.com/leaflet@1.9.2/dist/leaflet.css' integrity='sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=' crossorigin='')
-    link(href='stylesheets/styles.css' rel='stylesheet')
+    link(href='/stylesheets/styles.css' rel='stylesheet')
   body
+    block header
+      // Navigation
+      nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
+          .container.px-4.px-lg-5
+              a.navbar-brand(href='#page-top') Bikers network
+              button.navbar-toggler.navbar-toggler-right(type='button' data-bs-toggle='collapse' data-bs-target='#navbarResponsive' aria-controls='navbarResponsive' aria-expanded='false' aria-label='Toggle navigation')
+                  | Menu
+                  i.fas.fa-bars
+              #navbarResponsive.collapse.navbar-collapse
+                  ul.navbar-nav.ms-auto
+                      li.nav-item
+                          a.nav-link(href='/') Home
+                      li.nav-item
+                          a.nav-link(href='/bikes') Bikes
+                      li.nav-item
+                          a.nav-link(href='/bikes/create') Create
     block content

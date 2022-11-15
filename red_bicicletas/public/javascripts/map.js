@@ -6,7 +6,15 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 L.control.scale().addTo(map);
 
-L.marker([-34.935404,-56.160398],{draggable: true}).addTo(map);
-L.marker([-34.930813,-56.159797],{draggable: true}).addTo(map);
+fetch('/bikes/json')
+    .then((reponse) => reponse.json())
+    .then((response) => {
+        response.bikes.forEach((bike)=>{
+        L.marker([bike.location[0],bike.location[1]],{draggable: true}).addTo(map);
+    });
+}).catch((error)=>console.log(error));
+
+
+
 
 

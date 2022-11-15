@@ -2,7 +2,7 @@ let Bikes = function (id, color, model, location) {
     this.id = id;
     this.color = color;
     this.model = model;
-    this.location = location;
+    this.location = location
 }
 
 Bikes.prototype.toString = function (){
@@ -46,8 +46,8 @@ Bikes.remove = function (id) {
     }
 }
 
-let trinx = new Bikes(1, "red", "urban", [1,2]);
-let gt = new Bikes(2, "red", "urban", [1,2]);
+let trinx = new Bikes(1, "red", "Trinx urban", [-34.935404,-56.160398]);
+let gt = new Bikes(2, "blue", "GT Agressor MB", [-34.930813,-56.159797]);
 
 Bikes.add(trinx);
 Bikes.add(gt);

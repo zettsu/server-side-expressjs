@@ -1,28 +1,28 @@
 extends ../layout
 
 block content
-    a(href='bikes') Volver
-
-    br
-    br
-    br
-
-    h1 New Bike
-
-    br
-    br
-
-    form(action=`/bikes/${bike.id}/update`  method='post')
-        label(for='id') ID:
-        input#id(type='text' name='id' value=bike.id disabled=true)
-        br
-        label(for='color') Color:
-        input#color(type='text' name='color' value=bike.color)
-        br
-        label(for='model') Model:
-        input#model(type='text' name='model' value=bike.model)
-        br
-        label(for='location') Location:
-        input#location(type='text' name='location' value=bike.location)
-        br
-        input.btn(type="submit" value="save")
+    div.masthead
+        .container.px-4.px-lg-5.d-flex.h-25.align-items-center.justify-content-center
+            .d-flex.justify-content-center
+                .text-center
+                    h1.mx-auto.mt-0.text-uppercase Bikers Network
+        .container
+            section#projects.row.bg-light
+                form(action=`/bikes/${bike.id}/update` method='post').p-4.col-8
+                    h4.text-black Add bike
+                    div.form-group.col-2
+                        label.form-label(for='id') ID:
+                        input#id.form-control(type='text' name='id' value=bike.id disabled=)
+                    div.form-group.col-4
+                        label.form-label(for='color') Color:
+                        input#color.form-control(type='text' name='color' value=bike.color)
+                    div.form-group.col-4
+                        label.form-label(for='model') Model:
+                        input#model.form-control(type='text' name='model' value=bike.model)
+                    div.form-group.col-4
+                        label.form-label(for='lat') Location:
+                        input#lat.form-control(type='text' name='lat' value=bike.location[0])
+                    div.form-group.col-4
+                        label.form-label(for='long') Long:
+                        input#long.form-control(type='text' name='long' value=bike.location[1])
+                    input.btn.btn-success.mt-4(type="submit" value="save")

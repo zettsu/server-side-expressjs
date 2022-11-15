@@ -1,28 +1,29 @@
 extends ../layout
 
 block content
-    a(href='bikes') Volver
+    div.masthead
+        .container.px-4.px-lg-5.d-flex.h-25.align-items-center.justify-content-center
+            .d-flex.justify-content-center
+                .text-center
+                    h1.mx-auto.mt-0.text-uppercase Bikers Network
+        .container
+            section#projects.row.bg-light
+                form(action='/bikes/create' method='post').p-4.col-8
+                    h4.text-black Add bike
+                    div.form-group.col-2
+                        label.form-label(for='id') ID:
+                        input#id.form-control(type='text' name='id')
+                    div.form-group.col-4
+                        label.form-label(for='color') Color:
+                        input#color.form-control(type='text' name='color')
+                    div.form-group.col-4
+                        label.form-label(for='model') Model:
+                        input#model.form-control(type='text' name='model')
+                    div.form-group.col-4
+                        label.form-label(for='lat') Latitude:
+                        input#lat.form-control(type='text' name='lat')
+                    div.form-group.col-4
+                        label.form-label(for='long') Long:
+                        input#long.form-control(type='text' name='long')
 
-    br
-    br
-    br
-
-    h1 New Bike
-
-    br
-    br
-
-    form(action='/bikes/create' method='post')
-        label(for='id') ID:
-        input#id(type='text' name='id')
-        br
-        label(for='color') Color:
-        input#color(type='text' name='color')
-        br
-        label(for='model') Model:
-        input#model(type='text' name='model')
-        br
-        label(for='location') Location:
-        input#location(type='text' name='location')
-        br
-        input.btn(type="submit" value="save")
+                    input.btn.btn-success.mt-4(type="submit" value="save")
