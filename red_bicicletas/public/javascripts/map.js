@@ -6,8 +6,8 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 L.control.scale().addTo(map);
 
-fetch('/bikes/json')
-    .then((reponse) => reponse.json())
+fetch('/api/v1/bikes')
+    .then((response) => response.json())
     .then((response) => {
         response.bikes.forEach((bike)=>{
         L.marker([bike.location[0],bike.location[1]],{draggable: true}).addTo(map);
