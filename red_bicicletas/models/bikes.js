@@ -16,8 +16,20 @@ Bikes.add = function (bike) {
 }
 
 Bikes.find = function (id) {
-    let bike = Bikes.allBikes.find((bike) => bike.id === id);
-    if(bike) {
+    let bike = Bikes.allBikes.find((bike) => bike.id.toString() === id);
+    if(bike !== undefined) {
+        return bike;
+    }else{
+        throw new Error("No existe una bicicleta por ese id");
+    }
+}
+
+Bikes.update = function (id, color, model, location) {
+    let bike = Bikes.allBikes.find((obj => obj.id.toString() === id));
+    if(bike !== undefined) {
+        bike.color = color;
+        bike.model = model;
+        bike.location = location;
         return bike;
     }else{
         throw new Error("No existe una bicicleta por ese id");

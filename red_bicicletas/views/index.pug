@@ -11,6 +11,8 @@ block content
       #navbarResponsive.collapse.navbar-collapse
         ul.navbar-nav.ms-auto
           li.nav-item
+            a.nav-link(href='#location') Location
+          li.nav-item
             a.nav-link(href='#about') About
           li.nav-item
             a.nav-link(href='#projects') Projects
@@ -24,12 +26,16 @@ block content
           h1.mx-auto.my-0.text-uppercase Bikers Network
           h2.text-white-50.mx-auto.mt-2.mb-5 bikers network publications
           a.btn.btn-primary(href='#about') About us
+  section#location.bg-light
+    .container.px-4.px-lg-5
+      .row.gx-4.gx-lg-5.justify-content-center
+        .col-lg-8
+          div#map(style="height:500px;width:100%;")
   // About
   section#about.about-section.text-center
     .container.px-4.px-lg-5
       .row.gx-4.gx-lg-5.justify-content-center
         .col-lg-8
-          div#map
           h2.text-white.mb-4 Built with Bootstrap 5
           p.text-white-50
             | Grayscale is a free Bootstrap theme created by Start Bootstrap. It can be yours right now, simply download the template on
@@ -158,4 +164,4 @@ block content
   script(src='https://cdn.startbootstrap.com/sb-forms-latest.js')
   //leaftlet map api
   script(src='https://unpkg.com/leaflet@1.9.2/dist/leaflet.js' integrity='sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=' crossorigin='')
-  script(src='/javascripts/map.js')
+  script(src='javascripts/map.js')

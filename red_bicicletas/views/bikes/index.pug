@@ -8,11 +8,20 @@ block content
             th(scope="col") Color
             th(scope="col") Model
             th(scope="col") Location
+            th(scope="col")
+            th(scope="col")
         tbody
             each bike in bikes
                 tr
-                    th(scope="row")
-                        td= bike.id
+                    td(scope="row")
+                        = bike.id
                         td= bike.color
                         td= bike.model
                         td= bike.location
+                        td
+                            a(href="bikes/" + bike.id + "/update") Modificar
+                        td
+                            form.inline(method="post" action="bikes/" + bike.id + "/delete")
+                                input(type="hidden" name="id" value=bike.id)
+                                button.link-button(type="submit" name="submit_param" value="submit_value" class="btn")
+                                    = "Eliminar"
