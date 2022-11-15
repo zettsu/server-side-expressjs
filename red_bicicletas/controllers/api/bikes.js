@@ -4,6 +4,14 @@ exports.get = function (req, res) {
     res.json({ bikes : Bikes.allBikes });
 }
 
+exports.getById = function (req, res) {
+    try {
+        res.json(Bikes.find(req.params.id));
+    }catch (e){
+        return res.status(404).json({message: e.message});
+    }
+}
+
 exports.create = function (req, res) {
     if (Bikes.exists(req.body.id)) {
         return res.status(400).json({message: "Already exists"});
