@@ -35,7 +35,7 @@ describe('Bikes api', ()=>{
     });
 
     describe('post /', ()=>{
-        it('should return 200 OK', function (done) {
+        it('should return 201 OK', function (done) {
             let bike = JSON.stringify(new Bikes(1, 'black', 'GT', 'MTB', [-34.00, -10.00]));
             request.post({
                 headers: headers,
