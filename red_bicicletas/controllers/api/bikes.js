@@ -38,5 +38,4 @@ exports.delete = function (req, res) {
     }catch (e){
         return res.status(404).json({message:e.message});
     }
-
 }
