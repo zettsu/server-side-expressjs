@@ -1,7 +1,7 @@
 let Bikes = require("../../models/bikes");
 
 exports.get = function (req, res) {
-    res.json({ bikes : Bikes.allBikes });
+    res.json({ bikes : Bikes.findAll() });
 }
 
 exports.getById = function (req, res) {
