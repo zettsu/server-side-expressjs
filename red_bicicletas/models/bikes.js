@@ -1,3 +1,42 @@
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+
+let bikesSchema = new Schema({
+    code: Number,
+    color: String,
+    model: String,
+    location: {
+        type: [Number], index: { type: '2dsphere',sparse:true }
+    }
+});
+
+bikesSchema.statics.createInstance = function (code, color, model, location){
+    return new this({
+        code: code,
+        color: color,
+        model: model,
+        location: location
+    });
+};
+
+bikesSchema.methods.toString = function (){
+    return 'code' + this.code + ' color:'+ this.color;
+};
+
+bikesSchema.statics.findAll = function(){
+    return this.find();
+}
+
+bikesSchema.statics.findById = function (code) {
+    return this.find({ code : code});
+}
+
+
+
+let Bikes = mongoose.model("Bikes", bikesSchema);
+module.exports = Bikes;
+
+/*
 let Bikes = function (id, color, model, location) {
     this.id = id;
     this.color = color;
@@ -55,3 +94,5 @@ Bikes.exists = function (id) {
 
 dummyData();
 module.exports = Bikes;
+
+ */

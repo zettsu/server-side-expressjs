@@ -4,12 +4,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//custom
+var mongoose = require('mongoose');
+var mongodb = "mongodb://localhost/bikes";
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var bikesRouter = require('./routes/bikes');
 var bikesApiRouter = require('./routes/api/bikes');
 
 var app = express();
+
+//db
+mongoose.connect(mongodb, {useNewUrlParser:true});
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, "mongo db connection error"));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

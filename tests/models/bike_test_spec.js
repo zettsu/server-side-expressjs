@@ -1,21 +1,78 @@
 let Bikes = require('../../red_bicicletas/models/bikes');
+let mongoose = require('mongoose');
+
+const mongodb = "mongodb://127.0.0.1/bikes";
+const options = { useNewUrlParser:true };
+
+// originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+// jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+
+function dummyBikeInstance(code) {
+    return Bikes.createInstance(code, 'green', 'urban', [-34.00, -60.00]);
+}
+
+afterAll( async function() {
+    await Bikes.deleteMany();
+});
+
+beforeEach(async function() {
+    mongoose.connect(mongodb, options);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, "mongo db connection error"));
+    db.once('open', function (){
+        console.log('connected to mongo');
+
+    });
+    await Bikes.deleteMany();
+});
+
+
+describe('Tests bikes', function () {
+    describe('Test instance', function () {
+        it('instance returned', () =>{
+            let bike = dummyBikeInstance(1);
+            expect(bike.code).toBe(1);
+            expect(bike.color).toBe('green');
+            expect(bike.model).toBe('urban');
+            expect(bike.location).toEqual([-34.00, -60.00]);
+        });
+    });
+});
+
+describe('Test find all', function () {
+    it('equal to 0 instances returned', async () => {
+        const results = await Bikes.findAll();
+        expect(results.length).toBe(0);
+    });
+
+    it('more than 0 instances returned', async () => {
+        await Bikes.insertMany(dummyBikeInstance(2));
+        const results = await Bikes.findAll();
+        expect(results.length).toBe(1);
+        expect(results[0].model).toBe('urban');
+    });
+});
+
+describe('Test add', function () {
+    it('equal to 0 instances returned',   async () => {
+       expect(await Bikes.findById(99)).toEqual([]);
+    });
+
+    it('more than 0 instances returned', async () => {
+        await Bikes.insertMany(dummyBikeInstance(99));
+        const results = await Bikes.findById(99);
+        expect(results.length).toBe(1);
+        expect(results[0].model).toBe('urban');
+    });
+});
+
+
+
+/*
+
 
 const dummyBike = new Bikes(99, "red", "GT", [-54.0, -45.00]);
 const dummyBike2 = new Bikes(99, "blue", "TRINX", [-54.0, -45.00]);
-
-beforeEach(function() {
-    Bikes.all.splice(0,Bikes.getLength())
-});
-
-afterEach(function() {});
-
-describe('Bikes.allBikes', ()=>{
-    it('start empty', () =>{
-        Bikes.add(dummyBike);
-        Bikes.add(dummyBike2);
-        expect(Bikes.getLength()).toBe(2);
-    });
-});
 
 describe('Bikes.add', ()=> {
     it('add one bike', () => {
@@ -77,3 +134,5 @@ describe('Bikes.getLength', ()=> {
         expect(Bikes.getLength()).toBe(1);
     });
 });
+
+ */
