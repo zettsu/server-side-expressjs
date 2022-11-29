@@ -4,8 +4,12 @@ exports.json_bikes = function (req, res) {
     res.json({ bikes : Bikes.findAll() });
 }
 
-exports.list_bikes = function (req, res) {
-    res.render('bikes/index', { bikes : Bikes.findAll() });
+exports.list_bikes = async function (req, res) {
+    let bikes = await Bikes.findAll();
+    if (bikes === null){
+        bikes = []
+    }
+    res.render('bikes/index', { bikes : bikes });
 }
 
 exports.create_get = function (req, res) {
@@ -13,17 +17,24 @@ exports.create_get = function (req, res) {
 }
 
 exports.update_get = function (req, res) {
-    res.render('bikes/update',{bike:Bikes.find(req.params.id)});
+    Bikes.findByCode(req.params.id, function (err, bike) {
+        res.render('bikes/update',{bike:bike});
+    });
 }
 
 exports.update_post = function (req, res) {
-    Bikes.update(req.params.id, req.body.color, req.body.model, [req.body.lat, req.body.long]);
-    res.redirect('/bikes');
+    Bikes.findByCode(req.params.id, async function (err, bike) {
+        bike.color = req.body.color;
+        bike.model = req.body.model;
+        bike.location = [req.body.lat, req.body.long];
+        await Bikes.updateBike(req.params.id, bike);
+        res.redirect('/bikes');
+    });
 }
 
 exports.create_post = function (req, res) {
-    let bike = new Bikes(req.body.id, req.body.color, req.body.model, [req.body.lat, req.body.long]);
-    Bikes.add(bike);
+    let bike = Bikes.createInstance(req.body.id, req.body.color, req.body.model, [req.body.lat, req.body.long]);
+    Bikes.addBike(bike);
     res.redirect('/bikes');
 }
 

@@ -5,20 +5,21 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 //custom
-var mongoose = require('mongoose');
-var mongodb = "mongodb://localhost/bikes";
+const mongoose = require('mongoose');
+const mongodb = "mongodb://127.0.0.1/bikes";
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var bikesRouter = require('./routes/bikes');
-var bikesApiRouter = require('./routes/api/bikes');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const bikesRouter = require('./routes/bikes');
+const bikesApiRouter = require('./routes/api/bikes');
+const usersApiRouter = require('./routes/api/users');
 
 var app = express();
 
 //db
 mongoose.connect(mongodb, {useNewUrlParser:true});
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, "mongo db connection error"));
 
 // view engine setup
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/bikes', bikesRouter);
+app.use('/api/v1/users', usersApiRouter);
 app.use('/api/v1/bikes', bikesApiRouter);
 
 // catch 404 and forward to error handler
