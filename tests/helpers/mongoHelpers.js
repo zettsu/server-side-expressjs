@@ -1,7 +1,7 @@
 const Bikes = require("../../red_bicicletas/models/bikes");
 const Users = require("../../red_bicicletas/models/users");
 const mongoose = require('mongoose')
-const mongodb = "mongodb://127.0.0.1/bikes";
+const mongodb = "mongodb://127.0.0.1/red_bicicletas";
 const options = { useNewUrlParser:true };
 
 exports.connect = function (){

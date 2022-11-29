@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 //custom
 const mongoose = require('mongoose');
-const mongodb = "mongodb://127.0.0.1/bikes";
+const mongodb = "mongodb://127.0.0.1/red_bicicletas";
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
