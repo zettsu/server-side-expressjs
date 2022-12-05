@@ -5,6 +5,7 @@
     "express-generator": "^4.14.1",
     "moment": "^2.29.4",
     "mongoose": "^6.7.2",
+    "mongoose-unique-validator": "^3.1.0",
     "request": "^2.88.2"
   },
   "scripts": {

@@ -1,6 +1,7 @@
-let mongoose = require('mongoose');
-let bcrypt = require('bcrypt');
-let Booking = require('../models/booking');
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const bcrypt = require('bcrypt');
+const Booking = require('../models/booking');
 
 let Schema = mongoose.Schema;
 
@@ -21,7 +22,8 @@ let usersSchema = new Schema({
         trim: true,
         required: [true, "El email es obligatorio"],
         lowercase: [validateEmail, "Por favor, ingrese un email valido"],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/]
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/],
+        unique: true
     },
     password: {
         type: String,
@@ -34,6 +36,10 @@ let usersSchema = new Schema({
         default: false
     }
 });
+
+usersSchema.plugin(uniqueValidator, {
+    message: "EL {PATH} yya existe con otro usuario"
+})
 
 usersSchema.pre('save', function (next) {
     if (this.isModified('password')) {
