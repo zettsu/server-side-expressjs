@@ -1,9 +1,7 @@
 let Bikes = require("../models/bikes");
-const {main} = require('../mailer/Mailer');
 
 exports.json_bikes = function (req, res) {
-
-    res.json({ bikes : Bikes.findAll() });
+    res.json({ bikes : Bikes.findAll()});
 }
 
 exports.list_bikes = async function (req, res) {
@@ -11,7 +9,6 @@ exports.list_bikes = async function (req, res) {
     if (bikes === null){
         bikes = []
     }
-    main().catch(console.error);
     res.render('bikes/index', { bikes : bikes });
 }
 

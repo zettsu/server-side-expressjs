@@ -11,8 +11,10 @@ const mongodb = "mongodb://127.0.0.1/red_bicicletas";
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const bikesRouter = require('./routes/bikes');
+const tokenRouter = require('./routes/token');
 const bikesApiRouter = require('./routes/api/bikes');
 const usersApiRouter = require('./routes/api/users');
+
 
 var app = express();
 
@@ -35,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/bikes', bikesRouter);
+app.use('/token', tokenRouter);
 app.use('/api/v1/users', usersApiRouter);
 app.use('/api/v1/bikes', bikesApiRouter);
 

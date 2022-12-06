@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+    a(href='/users') Volver
+
+    br
+    br
+    br
+    br
+    h1 New user
+    br
+    br
+
+    form(action='/users/'+ user._id + '/update' method='post')
+        .form-group
+            label(for='name') Name:
+            input#name.form-control(type='text' name='name' value= user.name class= errors.name ? 'is-invalid': '')
+            if errors.name
+                small#nameHelp.text-danger
+                    = errors.name.message
+        .form-group
+            label(for='email') Email:
+            input#email.form-control(type='text' name='email' value= user.email class= errors.email ? 'is-invalid':'')
+            if errors.email
+                small#emailHelp.text-danger
+                    = errors.email.message
+        br
+        br
+        input.btn.btn-primary(type='submit' value='save')

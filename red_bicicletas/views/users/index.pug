@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+    div.masthead
+        .container.px-4.px-lg-5.d-flex.h-25.align-items-center.justify-content-center
+            .d-flex.justify-content-center
+                .text-center
+                    h1.mx-auto.mt-0.text-uppercase Bikers Network
+        .container.pl-5.pr-5
+            .d-flex.justify-content-center
+                section#projects.container-fluid.bg-light
+                    table.table.table-responsive.table-hover
+                        thead
+                        tr
+                            th(scope="col") #
+                            th(scope="col") Name
+                            th(scope="col") Email
+                            th(scope="col") Verified
+                            th(scope="col")
+                        tbody
+                        each user in users
+                            tr
+                                td(scope="row")
+                                    = user._id
+                                    td= user.name
+                                    td= user.email
+                                    td= user.verified ? 'Verified':'No Verified'
+                                    td
+                                        a(href="/users/" + user._id + "/update") Modificar
+                                    td
+                                        form.inline(method="post" action="users/" + user._id + "/delete")
+                                            input(type="hidden" name="id" value=user._id)
+                                            button.link-button(type="submit" name="submit_param" value="submit_value" class="btn")
+                                                = "Eliminar"

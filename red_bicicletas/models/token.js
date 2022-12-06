@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
 const TokenSchema = new Schema({
     _userId: {
