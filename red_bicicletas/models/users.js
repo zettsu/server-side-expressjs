@@ -62,23 +62,16 @@ usersSchema.methods.createBooking = function(bikeId, from, to, cb) {
 }
 
 usersSchema.methods.welcomeMail = function(cb) {
-    const token = new Token({_userId:this._id, token:crypto.randomBytes(16).toString('hex')});
+    const token = new Token({_userId:this._id, token:randomString()});
     const email_destination = this.email;
 
     token.save(function (err) {
         if (err){ return console.log(err.message)}
 
-        const options = {
-            from :'rickey.murphy5@ethereal.email',
-            to: email_destination,
-            subject: 'Verify account',
-            text: 'Hi, please in order to verify your account please click here http://localhost:3000/token/confirmation/'+token.token
-        }
-
-        Mailer.smtp().sendMail(options, function (err) {
+        Mailer.send(email_destination, 'Verify account', 'Hi, please in order to verify your account please click here http://localhost:3000/token/confirmation/'+token.token, function (err) {
             if (err){ return console.log(err.message)}
             console.log("Email was sended "+ email_destination);
-        });
+        })
     });
 }
 
@@ -100,6 +93,24 @@ usersSchema.statics.updateUser = function (id, user, cb) {
 
 usersSchema.statics.removeById = function (id, cb) {
     return this.deleteOne({_id:id}, cb);
+}
+
+usersSchema.resetPassword = function (cb) {
+    const token = new Token({_userId:this.id, token: randomString()})
+
+    token.save(function (err) {
+        if (err) {return cb(err)}
+        Mailer.send(this.email, 'Password reset', 'Hi, please in order to reset your password please click here http://localhost:3000/resetPassword/'+token.token, function (err) {
+            if (err){ return console.log(err.message)}
+            console.log("Email for password recovery was sended "+ email_destination);
+        });
+        cb(null)
+    });
+}
+
+function randomString()
+{
+    return crypto.randomBytes(16).toString('hex');
 }
 
 module.exports = mongoose.model("Users", usersSchema);

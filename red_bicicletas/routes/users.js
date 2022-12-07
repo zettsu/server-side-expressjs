@@ -10,4 +10,7 @@ router.get('/:id/update', usersController.update_get);
 router.post('/:id/update', usersController.update_post);
 router.post('/:id/delete', usersController.delete);
 
+router.get('/forgotPassword', usersController.forgot_password_get);
+router.post('/forgotPassword', usersController.forgot_password_post);
+
 module.exports = router;
