@@ -1,16 +1,19 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const Users = require('red_bicicletas/models/users');
+const Users = require('../models/users');
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({},
     function(username, password, done) {
-        User.findOne({ username: username }, function (err, user) {  if (err) { return done(err); }
+        Users.findOne({ email: username }, function (err, user) {  if (err) {
+            console.error('err:'+err)
+            return done(err);
+        }
             if (!user) {
-
+                console.error('user not found')
                 return done(null, false, { message: 'Username incorrecto.' });
             }
             if (!user.validPassword(password)) {
-
+                console.error('invalid user')
                 return done(null, false, { message: 'Password incorrecto.' });
             }
             return done(null, user);

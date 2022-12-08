@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const passport = require('../config/passport');
+const passport = require('../red_bicicletas/config/passport');
 const session = require('express-session');
 const store = new session.MemoryStore;
 
@@ -22,16 +22,14 @@ const {maxAge} = require("express-session/session/cookie");
 var app = express();
 
 app.use(session({
-  cookie:{
+  secret: 'bikes_!!!***!"!-!"',
+  store:store,
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
     maxAge: 240 * 60 * 60 * 1000,
-    store:store,
-    saveUninitialized:true,
-    resave:'true',
-    secret:'bikes_!!!***!"!-!"'
-  }
+  },
 }));
-
-
 
 //db
 mongoose.connect(mongodb, {useNewUrlParser:true});
@@ -46,23 +44,36 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('secret'));
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session(({ secret: 'secret' })));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
-app.post('/login',
-    passport.authenticate('local'),
-    function(req, res) {
-        // Si llega a ejecutarse esta función, la autenticación fue exitosa.
-        // `req.user` contiene el usuario autenticado.
-      res.redirect('/users/' + req.user.username);
-    });
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/',  failureRedirect: '/login' }));
 
+app.post('/login',  (req, res, next) => {
+  return passport.authenticate('local', {}, (err, passportUser, info) => {
+    console.error(err);
+
+    if(passportUser) {
+      return res.redirect('/');
+    }
+
+    return res.render('session/login', { user: {}, info:info });
+  })(req, res, next);
+});
+
+
+
+
+
+
+
+
+app.get('/logout', function (req, res) {
+  res.redirect('/');
+})
 app.use('/users', usersRouter);
 app.use('/bikes', bikesRouter);
 app.use('/token', tokenRouter);

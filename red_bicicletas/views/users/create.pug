@@ -31,7 +31,7 @@ block content
                 small#pwdHelp.text-danger
                     = errors.password.message
         .form-group
-            label(for='confirm_pwd') Name:
+            label(for='confirm_pwd') Confirm password:
             input#confirm_pwd.form-control(type='password' name='confirm_pwd' value= user.confirm_pwd class= errors.confirm_pwd ? 'is-invalid':'')
             if errors.confirm_pwd
                 small#passwordConfirmHelp.text-danger
