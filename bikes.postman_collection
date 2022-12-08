@@ -159,7 +159,13 @@
 					"name": "get",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGY2MGFlNmQ0NzM4YTliMjg3MDMyOCIsImlhdCI6MTY3MDQ2ODM5NCwiZXhwIjoxNjcxMDczMTk0fQ.BOAAeHipQnj44cXeJiSkgPN5EATxEeP54VqbHTORses",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:3000/api/v1/users",
 							"protocol": "http",
@@ -405,7 +411,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:3000/api/v1/users/63856f3c52387ec21b01af12/bookings",
+							"raw": "http://127.0.0.1:3000/api/v1/users/63858dfe8dcfa36bd96d1c05/bookings",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -418,8 +424,43 @@
 								"api",
 								"v1",
 								"users",
-								"63856f3c52387ec21b01af12",
+								"63858dfe8dcfa36bd96d1c05",
 								"bookings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "jwt",
+			"item": [
+				{
+					"name": "auth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"rickey.murphy5@ethereal.email\",\r\n    \"password\":\"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"authenticate"
 							]
 						}
 					},
