@@ -95,12 +95,12 @@ usersSchema.statics.removeById = function (id, cb) {
     return this.deleteOne({_id:id}, cb);
 }
 
-usersSchema.resetPassword = function (cb) {
+usersSchema.methods.resetPassword = function (cb) {
     const token = new Token({_userId:this.id, token: randomString()})
-
+    const to = this.email;
     token.save(function (err) {
         if (err) {return cb(err)}
-        Mailer.send(this.email, 'Password reset', 'Hi, please in order to reset your password please click here http://localhost:3000/resetPassword/'+token.token, function (err) {
+        Mailer.send(to, 'Password reset', 'Hi, please in order to reset your password please click here http://localhost:3000/resetPassword/'+token.token, function (err) {
             if (err){ return console.log(err.message)}
             console.log("Email for password recovery was sended "+ email_destination);
         });

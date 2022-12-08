@@ -6,8 +6,10 @@ module.exports = {
         Users.findOne({email:req.body.email}, function (err, user) {
             if (!user) { return res.render('session/forgotPassword', { info: {message:'Email not found'}}) }
             user.resetPassword(function (err) {
-                if (err) { return next(err)}
-                console.log('Error on session/forgotPassword:'+err.message)
+                if (err) {
+                    console.log('Error on session/forgotPassword:'+err.message)
+                    return next(err)
+                }
             });
             res.render('session/forgotPassword')
         });
