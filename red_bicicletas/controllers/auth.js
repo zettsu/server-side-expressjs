@@ -11,21 +11,25 @@ module.exports = {
                     return next(err)
                 }
             });
-            res.render('session/forgotPassword')
+            return res.render('session/forgotPassword')
         });
     },
     resetPasswordGet: function (req, res, next) {
         Token.findOne({token:req.params.token}, function (err, token) {
             if (!token) { return res.status(400).send( { type:'not-verified', msg: 'Please try again.'}) }
-            user.findById(token._userId, function (err, user) {
-                if (!user) { return res.status(400).send( { msg: 'User not found!'}) }
-                res.render('session/resetPassword', {errors:{}, user:user})
+            Users.findOne(token._userId, function (err, user) {
+                if (!user) {
+                    return res.status(400).send( { msg: 'User not found!'})
+                }else{
+                    return res.render('session/resetPassword', {errors:{}, user:user})
+                }
+                res.render('session/forgotPassword')
             });
-            res.render('session/forgotPassword')
         });
+
     },
     resetPasswordPost: function (req, res, next) {
-        if (req.body.password !== req.confirm_password) {
+        if (req.body.password !== req.body.confirm_password) {
             return res.render('session/resetPassword', {errors:{confirm_password: {message:'Password dont match'}}, user: new User({email:req.body.email})});
         }
         Users.findOne({email:req.body.email}, function (err, user) {
