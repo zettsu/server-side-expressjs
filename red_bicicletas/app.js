@@ -1,3 +1,4 @@
+require('newrelic');
 require('dotenv').config();
 
 var createError = require('http-errors');
@@ -8,7 +9,8 @@ var logger = require('morgan');
 const passport = require('../red_bicicletas/config/passport');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-const store = new session.MemoryStore;
+const MongoDbStore = require('connect-mongodb-session')(session);
+
 
 //custom
 const mongoose = require('mongoose');
@@ -22,6 +24,23 @@ const bikesApiRouter = require('./routes/api/bikes');
 const usersApiRouter = require('./routes/api/users');
 const authApiRouter = require('./routes/api/auth');
 const {maxAge} = require("express-session/session/cookie");
+const assert = require("assert");
+
+let store;
+
+if (process.env.NODE_ENV === 'development') {
+  store = new session.MemoryStore;
+}else {
+  store = new MongoDbStore({
+    uri:process.env.MONGO_URI,
+    collection:'sessions'
+  })
+
+  store.on('error', function (err) {
+    assert.ifError(err);
+    assert.ok(false);
+  })
+}
 
 var app = express();
 
@@ -55,6 +74,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('secret-key', 'text');
 
 app.use('/', indexRouter);
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/error' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+      res.redirect('/');
+});
+
+
 
 app.post('/login',  (req, res, next) => {
   return passport.authenticate('local', {}, (err, passportUser, info) => {

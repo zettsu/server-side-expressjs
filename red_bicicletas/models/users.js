@@ -38,7 +38,9 @@ let usersSchema = new Schema({
     verified: {
         type: Boolean,
         default: false
-    }
+    },
+    googleId:String,
+    facebookId:String
 });
 
 usersSchema.plugin(uniqueValidator, {
@@ -75,6 +77,50 @@ usersSchema.methods.welcomeMail = function(cb) {
     });
 }
 
+usersSchema.statics.findOrCreateByGoogle = function(condition, callback) {
+    const self = this;
+    self.findOne({
+        $or: [{'googleId': condition.id}, {'email': condition.emails[0].value}], function(err, result) {
+            if (result) {
+                callback(err, result);
+            } else {
+                let values = {};
+                values.googleId = condition.id;
+                values.email = condition.emails[0].value;
+                values.name = condition.displayName || 'No name';
+                values.verification = true;
+                values.password = condition._json.etag;
+                self.create(values, function (err, result) {
+                    if (err){console.log(err)}
+                    return callback(err, result);
+                })
+            }
+        }
+    });
+}
+
+usersSchema.statics.findOrCreateByFacebook = function(condition, callback) {
+    const self = this;
+    self.findOne({
+        $or: [{'facebookId': condition.id}, {'email': condition.emails[0].value}], function(err, result) {
+            if (result) {
+                callback(err, result);
+            } else {
+                let values = {};
+                values.facebookId = condition.id;
+                values.email = condition.emails[0].value;
+                values.name = condition.displayName || 'No name';
+                values.verification = true;
+                values.password = randomString();
+                self.create(values, function (err, result) {
+                    if (err){console.log(err)}
+                    return callback(err, result);
+                })
+            }
+        }
+    });
+}
+
 usersSchema.statics.findAll = function(cb) {
     return this.find({}, cb);
 }
@@ -108,8 +154,7 @@ usersSchema.methods.resetPassword = function (cb) {
     });
 }
 
-function randomString()
-{
+function randomString() {
     return crypto.randomBytes(16).toString('hex');
 }
 

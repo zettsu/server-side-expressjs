@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const passport = require('../config/passport');
 
 const authController = require('../controllers/auth')
 
@@ -14,6 +15,7 @@ router.get('/forgotPassword', function(req, res) {
 router.post('/forgotPassword', authController.forgotPasswordPost );
 router.get('/resetPassword/:token', authController.resetPasswordGet );
 router.post('/resetPassword', authController.resetPasswordPost );
+router.post('/facebook_token', passport.authenticate('facebook-token'), authController.authFacebookToken );
 
 router.get('/login', function (req, res) {
   res.render('session/login')

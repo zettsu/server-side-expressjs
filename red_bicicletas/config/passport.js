@@ -1,6 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const Users = require('../models/users');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-fa-oauth20').Strategy;
 
 passport.use(new LocalStrategy({},
     function(username, password, done) {
@@ -17,6 +19,29 @@ passport.use(new LocalStrategy({},
                 return done(null, false, { message: 'Password incorrecto.' });
             }
             return done(null, user);
+        });
+    }
+));
+
+passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.HOST + "/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        Users.findOrCreateByFacebook({ googleId: profile.id }, function (err, user) {
+            return cb(err, user);
+        });
+    }
+));
+
+passport.use(new FacebookStrategy({
+        clientID: process.env.FACEBOOK_ID,
+        clientSecret: process.env.FACEBOOK_SECRET,
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        Users.findOrCreateByGoogle({ googleId: profile.id }, function (err, user) {
+            return cb(err, user);
         });
     }
 ));
