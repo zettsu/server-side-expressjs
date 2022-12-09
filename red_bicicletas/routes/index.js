@@ -19,4 +19,12 @@ router.get('/login', function (req, res) {
   res.render('session/login')
 });
 
+router.get('/privacy_policy', function (req, res) {
+  res.sendFile('public/privacy.html')
+});
+
+router.get('/tyc', function (req, res) {
+  res.sendFile('public/tyc.html')
+});
+
 module.exports = router;
