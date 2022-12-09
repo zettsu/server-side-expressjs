@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,7 +12,7 @@ const store = new session.MemoryStore;
 
 //custom
 const mongoose = require('mongoose');
-const mongodb = "mongodb://127.0.0.1/red_bicicletas";
+const mongodb = process.env.MONGO_URI;
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
